@@ -1,23 +1,28 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import CRM from './components/CRM';
-import ClientLedger from './components/ClientLedger';
-import LedgerDetails from './components/LedgerDetails';
+// src/App.tsx
 
-const App: React.FC = () => (
-  <Router>
-    <div className="app">
-      <Sidebar />
-      <div className="content">
-        <Switch>
-          <Route path="/crm" component={CRM} />
-          <Route path="/client-ledger" exact component={ClientLedger} />
-          <Route path="/client-ledger/:id" component={LedgerDetails} />
-        </Switch>
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Sidebar from '@/components/Sidebar';
+import CrmPage from '@/components/CRM/CrmPage';
+import ClientLedgerPage from '@/pages/ClientLedgerPage'; // Ensure this exists and exports properly
+import ClientTable from '@/components/ClientLedger/ClientTable'; // New component for displaying all clients
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 p-4">
+          <Routes>
+            <Route path="/" element={<Navigate to="/crm" />} />
+            <Route path="/crm" element={<CrmPage />} />
+            <Route path="/ledger" element={<ClientTable />} /> {/* Base route for ledger */}
+            <Route path="/ledger/:clientId" element={<ClientLedgerPage />} /> {/* Detailed ledger view */}
+          </Routes>
+        </div>
       </div>
-    </div>
-  </Router>
-);
+    </Router>
+  );
+};
 
 export default App;
