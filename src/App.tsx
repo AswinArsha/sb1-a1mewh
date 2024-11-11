@@ -1,26 +1,23 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Sidebar } from '@/components/layout/sidebar';
-import { CRMView } from '@/views/crm-view';
-import { LedgerView } from '@/views/ledger-view';
-import { SettingsView } from '@/views/settings-view';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import CRM from './components/CRM';
+import ClientLedger from './components/ClientLedger';
+import LedgerDetails from './components/LedgerDetails';
 
-function App() {
-  return (
-    <Router>
-      <div className="flex h-screen bg-background">
-        <Sidebar />
-        <main className="flex-1 overflow-y-auto">
-          <Routes>
-            <Route path="/" element={<CRMView />} />
-            <Route path="/crm" element={<CRMView />} />
-            <Route path="/ledger" element={<LedgerView />} />
-            <Route path="/ledger/:clientId" element={<LedgerView />} />
-            <Route path="/settings" element={<SettingsView />} />
-          </Routes>
-        </main>
+const App: React.FC = () => (
+  <Router>
+    <div className="app">
+      <Sidebar />
+      <div className="content">
+        <Switch>
+          <Route path="/crm" component={CRM} />
+          <Route path="/client-ledger" exact component={ClientLedger} />
+          <Route path="/client-ledger/:id" component={LedgerDetails} />
+        </Switch>
       </div>
-    </Router>
-  );
-}
+    </div>
+  </Router>
+);
 
 export default App;
